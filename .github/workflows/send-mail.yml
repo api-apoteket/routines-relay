@@ -1,0 +1,32 @@
+# .github/workflows/send-mail.yml
+name: Send mail
+on:
+  workflow_dispatch:
+    inputs:
+      subject:
+        description: 'Email subject'
+        required: true
+        type: string
+      body:
+        description: 'Email body (plain text/markdown)'
+        required: true
+        type: string
+
+jobs:
+  send:
+    runs-on: self-hosted
+    timeout-minutes: 2
+    steps:
+      - name: Send via msmtp
+        env:
+          SUBJECT: ${{ inputs.subject }}
+          BODY: ${{ inputs.body }}
+        run: |
+          {
+            printf 'From: nils.anders.eriksson@icloud.com\n'
+            printf 'To: anders.eriksson@denied.se\n'
+            printf 'Subject: %s\n' "$SUBJECT"
+            printf 'Content-Type: text/plain; charset=utf-8\n'
+            printf 'Date: %s\n' "$(date -u +'%a, %d %b %Y %H:%M:%S +0000')"
+            printf '\n%s\n' "$BODY"
+          } | msmtp -t

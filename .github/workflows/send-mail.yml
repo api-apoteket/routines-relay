@@ -28,4 +28,4 @@ jobs:
             printf 'Date: %s\n' "$(date -u +'%a, %d %b %Y %H:%M:%S +0000')"
             printf 'Subject: %s\n' "$SUBJECT"
             printf '\n%s\n' "$BODY"
-          } | msmtp anders.eriksson@denied.se
+          } | msmtp dev@denied.se
